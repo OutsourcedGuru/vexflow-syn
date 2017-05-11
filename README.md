@@ -1,7 +1,14 @@
 # vexflow-syn
 A synesthesic (relating to synesthesia) approach to coloring music notation in JavaScript by note.
 
-This projects builds on the excellent JavaScript library [https://github.com/0xfe/vexflow](vexflow) by 0xfe. See also [http://www.vexflow.com](vexflow.com) for more information and tutorials.
+## Purpose
+The purpose of this is to create a new learning method for teaching musical notation to children, especially the very young. The hope would be that this approach will take advantage of neuroplasticity to actually promote synesthesia in the student. In my mind, recognizing the color combinations of piano chords could be made easier like this, making a C-maj chord more readily distinguishable from a D-maj, for example.
+
+## Existing code
+
+This projects builds on the excellent JavaScript library [https://github.com/0xfe/vexflow](vexflow) by 0xfe. See also [http://www.vexflow.com](vexflow.com) for more information and tutorials. To work with this project, you'd need some experience working with the way vexflow creates and decorates notation on one or more musical staves, as rendered to an HTML5 canvas.
+
+## Definition
 
 Wikipedia defines synesthesia as "a neurological phenomenon in which stimulation of one sensory or cognitive pathway leads to automatic, involuntary experiences in a second sensory or cognitive pathway".
 
@@ -26,7 +33,24 @@ According to http://synspectrum.com/synesthesia.html, the author experiences the
 <tr><td>B:</td><td>a very crisp black</td></tr>
 </table>
 
+## Synesthetes
 Alexander Scriabin (1872-1915), Hélène Grimaud (1969-), Franz Liszt (1811-1886), Itzhak Perman (1945-), Duke Ellington (1899-1974, Joachim Raff (1822-1882), Jean Sibelius (1865-1957), György Ligeti (1923-2006), Nikolai Rimsky-Korsakov (1844-1908), Olivier Messiaen (1908-1992) and David Hockney (1937) all were famous musicians and composers who wrote about their own synesthesia and how it affected them personally.
 
 ## A strategy for coloring notation
 Since I've not been able to determine a commonality or consensus among the anecdotal collective evidence of existing writings, I've decided to issue colors based upon a common childhood toy from kindergarten:  the xylophone. 
+
+![xylophone](https://cloud.githubusercontent.com/assets/15971213/25959487/95def22e-3628-11e7-9a7e-022278aeb1a8.jpg)
+
+The approach here is to use the natural red-to-violet color spectrum and map this to the span of one octave of white keys on a typical piano keyboard. This gives us the following table:
+
+<table>
+<tr><td>C</td><td>red</td></tr>
+<tr><td>D</td><td>orange</td></tr>
+<tr><td>E</td><td>yellow</td></tr>
+<tr><td>F</td><td>green</td></tr>
+<tr><td>G</td><td>blue</td></tr>
+<tr><td>A</td><td>purple</td></tr>
+<tr><td>B</td><td>violet</td></tr>
+</table>
+
+Next, we need to find a color for the accidentals (sharps/flats). The best method here appears to be to find an intermediate color between the notes above/below and then I've decided to make the color grayer, more pastel in feel.
