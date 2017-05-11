@@ -6,13 +6,13 @@ The purpose of this is to create a new learning method for teaching musical nota
 
 ## Existing code
 
-This projects builds on the excellent JavaScript library [https://github.com/0xfe/vexflow](vexflow) by 0xfe. See also [http://www.vexflow.com](vexflow.com) for more information and tutorials. To work with this project, you'd need some experience working with the way vexflow creates and decorates notation on one or more musical staves, as rendered to an HTML5 canvas.
+This projects builds on the excellent JavaScript library [vexflow](https://github.com/0xfe/vexflow) by 0xfe. See also [vexflow.com](http://www.vexflow.com) for more information and tutorials. To work with this project, you'd need some experience working with the way vexflow creates and decorates notation on one or more musical staves, as rendered to an HTML5 canvas.
 
 ## Definition
 
 Wikipedia defines synesthesia as "a neurological phenomenon in which stimulation of one sensory or cognitive pathway leads to automatic, involuntary experiences in a second sensory or cognitive pathway".
 
-According to http://synspectrum.com/synesthesia.html, the author experiences the following colors associated with these notes:
+In case you're interested, according to [this blog post](http://synspectrum.com/synesthesia.html), the synesthetic author experiences the following colors associated with these notes:
 
 <table>
 <tr><td>C:</td><td>white</td></tr>
@@ -59,8 +59,8 @@ Next, we need to find a color for the accidentals (sharps/flats). The best metho
 
 In this example, we see a chromatic scale in the first stave: B, C, C#, D | Eb, E, F, F# | G, G#, A and a rest.  The next stave includes: Bb, B, C, C# | D, Eb, E, F | F#, G, G# and A.  The final stave includes four major chords (C-maj, D-maj, E-maj and F-maj) followed by their minors (C-min, D-min, E-min and F-min).
 
-One should readily see some of the advantages here.
-* Playing octaves on the piano would be monochromatic, there might be two red notes separated by a common distance across the stave, for example.
+One should readily see some of the advantages here with the colorized version:
+* Visualizing octaves on the piano would be monochromatic, there might be two red notes separated by a common distance across the stave, for example.
 * All black keys on the piano appear grayer in color than their white-key counterparts.
 * The red/yellow/blue primary color combination is seen in the C-maj 1-3-5 chord.  If the expected yellow middle note is shifted more orange and grayer, then this is a quick visual indication of the C-min variation in this case.
 * A melody which is gradually moving through the color spectrum is chromatic (half-note steps).  A melody which is in a major key like C-maj has little gray in it. 
@@ -73,7 +73,7 @@ At the moment, this project is simply an example of a client-side approach to di
 ```
 $ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
 $ cd vexflow-syn
-$ open index.html         // ...or on Windows, "start index.html" works the same
+$ open index.html         // in theWindows, "start index.html"
 ```
 
 ## Notes
