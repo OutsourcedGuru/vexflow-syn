@@ -73,7 +73,7 @@ At the moment, this project is simply an example of a client-side approach to di
 ```
 $ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
 $ cd vexflow-syn
-$ open index.html         // in theWindows, "start index.html"
+$ open index.html         // in Windows, "start index.html"
 ```
 
 ## Notes
