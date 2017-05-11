@@ -59,4 +59,8 @@ Next, we need to find a color for the accidentals (sharps/flats). The best metho
 
 In this example, we see a chromatic scale in the first stave: B, C, C#, D | Eb, E, F, F# | G, G#, A and a rest.  The next stave includes: Bb, B, C, C# | D, Eb, E, F | F#, G, G# and A.  The final stave includes four major chords (C-maj, D-maj, E-maj and F-maj) followed by their minors (C-min, D-min, E-min and F-min).
 
-One should readily see some of the advantages here.  Playing octaves on the piano would be monochromatic, there might be two red notes separated by a common distance across the stave.
+One should readily see some of the advantages here.
+* Playing octaves on the piano would be monochromatic, there might be two red notes separated by a common distance across the stave, for example.
+* All black keys on the piano appear grayer in color than their white-key counterparts.
+* The red/yellow/blue primary color combination is seen in the C-maj 1-3-5 chord.  If the expected yellow middle note is shifted more orange and grayer, then this is a quick visual indication of the C-min variation in this case.
+* A melody which is gradually moving through the color spectrum is chromatic (half-note steps).  A melody which is in a major key like C-maj has little gray in it. 
