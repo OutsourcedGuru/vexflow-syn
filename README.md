@@ -64,3 +64,21 @@ One should readily see some of the advantages here.
 * All black keys on the piano appear grayer in color than their white-key counterparts.
 * The red/yellow/blue primary color combination is seen in the C-maj 1-3-5 chord.  If the expected yellow middle note is shifted more orange and grayer, then this is a quick visual indication of the C-min variation in this case.
 * A melody which is gradually moving through the color spectrum is chromatic (half-note steps).  A melody which is in a major key like C-maj has little gray in it. 
+* In musical theory for conventional music, you often hear terms like "dominant" (for the C-maj key that's 5-7-9 or G/B/D or blue/violet/orange in this case).  So the music might begin with the root C-maj red/yellow/blue, then move to the dominant G-maj blue/violet/orange, temporarily move to the fourth F-maj with green/purple/red and then back to the root. With practice, the recognition of these color movements could make things easier for the student, if not almost instinctual at some point.
+
+## Progress
+At the moment, this project is simply an example of a client-side approach to displaying a few staves of colorized musical notation.  It relies upon the (normally external) dependency of the vexflow JavaScript include but to make things easier I've copied a snapshot of this library to make installation go quickly for you.
+
+## Installation
+```
+$ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
+$ cd vexflow-syn
+$ open index.html         // ...or on Windows, "start index.html" works the same
+```
+
+## Notes
+It looks like vexflow at the moment is a little early in its development cycle. Although it's an awesome effort by its author, it still lacks in the ease-of-use areas, in my humble opinion.  You might also want to investigate some of the one-off projects like https://github.com/rubiety/vexflow-json and https://github.com/rubiety/jquery-vexflow-json which likely make things easier on importing into the note array for one or more staves.
+
+What appears to be missing is "stave continuation" (for want of a term to describe it), a feature which would allow an entire score to be added as a single array.  In theory, then, the rendering engine would make some reasonable assumptions about note spacing and then essentially do what any text editor might: find suitable places to add an end-of-line character to move to the next line (stave), in this case.  The underlying vexflow library does not have this.
+
+I'm also in the learning stage for vexflow since this project is less than a week old for me, to be honest.  I find it difficult at the moment to easily change note durations without this causing errors in the rendering step.  It feels like the vexflow author expects me to manually type in the beat count for each stave but I'd rather do this programmatically, of course.
