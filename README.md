@@ -1,5 +1,5 @@
 # vexflow-syn
-A synesthesic (relating to synesthesia) approach to coloring music notation in JavaScript by note.
+A synesthetic (relating to synesthesia) approach to coloring music notation in JavaScript by note.
 
 ## Purpose
 The purpose of this is to create a new learning method for teaching musical notation to children, especially the very young. The hope would be that this approach will take advantage of neuroplasticity to actually promote synesthesia in the student. In my mind, recognizing the color combinations of piano chords could be made easier like this, making a C-maj chord more readily distinguishable from a D-maj, for example.
