@@ -236,7 +236,7 @@
             case "b/3":
             case "b/2":
             case "b/1":
-              //if (notesFirst[i].duration == "qr") break;  // Since rests sit on the B space
+              if (notesFirst[i].isRest()) break;  // Since rests sit on the B space
               if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#ff66ff"});
               notesFirst[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
               break;
@@ -411,7 +411,7 @@
             case "b/3":
             case "b/2":
             case "b/1":
-              //if (notesSecond[i].isRest) break;  // Since rests sit on the B space
+              if (notesSecond[i].isRest()) break;  // Since rests sit on the B space
               if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#ff66ff"});
               notesSecond[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
               break;
@@ -586,7 +586,7 @@
             case "b/3":
             case "b/2":
             case "b/1":
-              //if (notesThird[i].isRest) break;  // Since rests sit on the B space
+              if (notesThird[i].isRest()) break;  // Since rests sit on the B space
               if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#ff66ff"});
               notesThird[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
               break;
