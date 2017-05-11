@@ -77,7 +77,7 @@ $ open index.html         // in theWindows, "start index.html"
 ```
 
 ## Notes
-It looks like vexflow at the moment is a little early in its development cycle. Although it's an awesome effort by its author, it still lacks in the ease-of-use areas, in my humble opinion.  You might also want to investigate some of the one-off projects like https://github.com/rubiety/vexflow-json and https://github.com/rubiety/jquery-vexflow-json which likely make things easier on importing into the note array for one or more staves.
+It looks like vexflow at the moment is a little early in its development cycle. Although it's an awesome effort by its author, it still lacks in the ease-of-use areas, in my humble opinion.  You might also want to investigate some of the one-off projects like [vexflow-json](https://github.com/rubiety/vexflow-json) and [jquery-vexflow-json](https://github.com/rubiety/jquery-vexflow-json) which likely make things easier on importing into the note array for one or more staves.
 
 What appears to be missing is "stave continuation" (for want of a term to describe it), a feature which would allow an entire score to be added as a single array.  In theory, then, the rendering engine would make some reasonable assumptions about note spacing and then essentially do what any text editor might: find suitable places to add an end-of-line character to move to the next line (stave), in this case.  The underlying vexflow library does not have this.
 
