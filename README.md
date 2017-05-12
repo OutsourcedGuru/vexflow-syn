@@ -74,7 +74,9 @@ At the moment, this project is simply an example of a client-side approach to di
 $ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
 $ cd vexflow-syn
 $ open index.html         // in Windows, "start index.html"
+$ open mary.html
 ```
+At the moment, the "Mary Had a Little Lamb" file has a better coding style for processing multiple note arrays.
 
 ## Notes
 It looks like vexflow at the moment is a little early in its development cycle. Although it's an awesome effort by its author, it still lacks in the ease-of-use areas, in my humble opinion.  You might also want to investigate some of the one-off projects like [vexflow-json](https://github.com/rubiety/vexflow-json) and [jquery-vexflow-json](https://github.com/rubiety/jquery-vexflow-json) which likely make things easier on importing into the note array for one or more staves.
