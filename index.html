@@ -11,22 +11,22 @@
     var canvasLeftMargin  = 20;
     var staveHeight       = 100;
     var beatsValue        = 4;
+    var numStaves         = 3;
     var canvas            = document.getElementById("canvasScore")
     var renderer          = new Vex.Flow.Renderer(canvas,
     Vex.Flow.Renderer.Backends.CANVAS);
     var ctxRenderer       = renderer.getContext();
-    var staveTreble       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveTreble.addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
-  
-    // This is for the second stave below the first
-    canvasTopMargin += staveHeight;
-    var staveSecond       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveSecond.setContext(ctxRenderer).draw();
 
-    // This is for the third stave
+    // Create three staves
+    var arrayStaves       = [numStaves];
+    arrayStaves[0]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[0].addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
     canvasTopMargin += staveHeight;
-    var staveThird       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveThird.setContext(ctxRenderer).draw();
+    arrayStaves[1]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[1].addClef("treble").setContext(ctxRenderer).draw();
+    canvasTopMargin += staveHeight;
+    arrayStaves[2]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[2].addClef("treble").setContext(ctxRenderer).draw();
 
     // Create the notes for the first stave
     var notesFirst = [
@@ -611,14 +611,14 @@
     // for each of the three staves.
     var formatterFirst = new Vex.Flow.Formatter().
       joinVoices([voiceFirst]).format([voiceFirst], canvasWidth);
-    voiceFirst.draw(ctxRenderer, staveTreble);
+    voiceFirst.draw(ctxRenderer, arrayStaves[0]);
 
     var formatterSecond = new Vex.Flow.Formatter().
       joinVoices([voiceSecond]).format([voiceSecond], canvasWidth);
-    voiceSecond.draw(ctxRenderer, staveSecond);
+    voiceSecond.draw(ctxRenderer, arrayStaves[1]);
 
     var formatterThird = new Vex.Flow.Formatter().
       joinVoices([voiceThird]).format([voiceThird], canvasWidth);
-    voiceThird.draw(ctxRenderer, staveThird);
+    voiceThird.draw(ctxRenderer, arrayStaves[2]);
   </script>
 </html>
