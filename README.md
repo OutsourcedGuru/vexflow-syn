@@ -83,3 +83,8 @@ It looks like vexflow at the moment is a little early in its development cycle. 
 What appears to be missing is "stave continuation" (for want of a term to describe it), a feature which would allow an entire score to be added as a single array.  In theory, then, the rendering engine would make some reasonable assumptions about note spacing and then essentially do what any text editor might: find suitable places to add an end-of-line character to move to the next line (stave), in this case.  The underlying vexflow library does not have this.
 
 I'm also in the learning stage for vexflow since this project is less than a week old for me, to be honest.  I find it difficult at the moment to easily change note durations without this causing errors in the rendering step.  It feels like the vexflow author expects me to manually type in the beat count for each stave but I'd rather do this programmatically, of course.
+
+## Complexity
+Having now learned a bit about the vexflow styling tutorial, I've added a pair of staves from the "9 Crimes" song by Damien Rice to demonstrate bracing a treble/bass clef, properly marking notes when they're in a different clef, adding ties and note bars, etc. This file also adds to the collection of accidentals and exceptions for the simpler cases so it's probably the best file to use as a base point for your own work.
+
+![9crimes](https://cloud.githubusercontent.com/assets/15971213/26123137/aeb46f86-3a2e-11e7-943f-212bd36f2ac1.png)
