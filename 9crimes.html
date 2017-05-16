@@ -18,6 +18,16 @@
       font-style: italic;
       font-weight: normal;
     }
+    #tempo {
+      font-size: 16pt;
+      float: left;
+      margin-left: 30px;
+    }
+    #attribution {
+      font-size: 16pt;
+      float: right;
+      margin-right: 35px;
+    }
     h2 {
       margin-top: 50px;
       margin-left: 40px;
@@ -27,7 +37,8 @@
   </head>
   <body>
   <div id="canvasScoreContainer">
-    <h1>9 Crimes - Damien Rice</h1>
+    <h1>9 Crimes</h1>
+    <span id="tempo">q = 70</span><span id="attribution">Words and music by Damien Rice</span>
     <canvas width="1200" height="350" id="canvasScore"></canvas>
   </div>
   <h2>https://github.com/OutsourcedGuru/vexflow-syn<h2>
@@ -101,42 +112,59 @@
       new VFS({ keys: ["b/3"], duration: "8" })
     ];
     arrayNoteArrays[1] = [
-      new VFS({ keys: ["b/4"], duration: "qr" }),  new Vex.Flow.BarNote(),
+      new VFS({ clef: "bass", keys: ["f/3"], duration: "qr" }),  new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["f/4"], duration: "8" }),
-      new VFS({ keys: ["c/5"], duration: "qd" }),
-      new VFS({ keys: ["d/4"], duration: "8" }),
-      new VFS({ keys: ["a/4"], duration: "qd" }),  new Vex.Flow.BarNote(),
+      new VFS({ clef: "bass", keys: ["a/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),
+      new VFS({ clef: "bass", keys: ["f/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "qd" }),  new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["a/3"], duration: "8" }),
-      new VFS({ keys: ["e/4"], duration: "8" }),
-      new VFS({ keys: ["a/4"], duration: "8" }),
-      new VFS({ keys: ["c/5"], duration: "8" }), 
-      new VFS({ keys: ["e/4"], duration: "8" }),
-      new VFS({ keys: ["b/4"], duration: "qd" }),   new Vex.Flow.BarNote(),
+      new VFS({ clef: "bass", keys: ["c/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "8" }), 
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),   new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["f/4"], duration: "8" }),
-      new VFS({ keys: ["c/5"], duration: "qd" }),
-      new VFS({ keys: ["d/4"], duration: "8" }),
-      new VFS({ keys: ["a/4"], duration: "qd" }),  new Vex.Flow.BarNote(),
+      new VFS({ clef: "bass", keys: ["a/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),
+      new VFS({ clef: "bass", keys: ["f/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "qd" }),  new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["a/3"], duration: "8" }),
-      new VFS({ keys: ["e/4"], duration: "8" }),
-      new VFS({ keys: ["a/4"], duration: "8" }),
-      new VFS({ keys: ["c/5"], duration: "8" }), 
-      new VFS({ keys: ["e/4"], duration: "8" }),
-      new VFS({ keys: ["b/4"], duration: "qd" })
+      new VFS({ clef: "bass", keys: ["c/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "8" }), 
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" })
     ];
     // Setup an array of beams for the staves. They'll be drawn at the last moment after the
     // colorization step.
     var arrayBeams = [numStaves];
     for (var z=0; z<numStaves; z++) arrayBeams[z] = Vex.Flow.Beam.generateBeams(arrayNoteArrays[z]);
 
-    // Setup the ties
+    // Setup the ties, noting that some of these must "step across" the barline, hence the iteration
+    // distance of two in these cases.
     var arrayTies = [
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][5],
         last_note: arrayNoteArrays[0][6]
+      }),
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][8],
+        last_note: arrayNoteArrays[0][10]
+      }),
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][12],
+        last_note: arrayNoteArrays[0][14]
+      }),
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][16],
+        last_note: arrayNoteArrays[0][17]
+      }),
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][19],
+        last_note: arrayNoteArrays[0][21]
       })
     ];
 
@@ -237,6 +265,8 @@
               // F = green
               // --------------------------------------------------------------------------------
               case "f/6":   case "f/5":   case "f/4":   case "f/3":   case "f/2":   case "f/1":
+                if (arrayNoteArrays[staveIterator][i].isRest())
+                  break;  // Since rests sit on the F space in the bass clef
                 if (arrayNoteArrays[staveIterator][i].keys.length == 1)
                   arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#00ff00"});
                 arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#00ff00"});
