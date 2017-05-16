@@ -55,7 +55,7 @@ The approach here is to use the natural red-to-violet color spectrum and map thi
 
 Next, we need to find a color for the accidentals (sharps/flats). The best method here appears to be to find an intermediate color between the notes above/below and then I've decided to make the color grayer, more pastel in feel.
 
-![example](https://cloud.githubusercontent.com/assets/15971213/25960561/2750f948-362c-11e7-9eaf-d5ca4206393d.png)
+![vexflow-syn_example](https://cloud.githubusercontent.com/assets/15971213/26010325/53a45d2a-3701-11e7-9f94-b14363448406.png)
 
 In this example, we see a chromatic scale in the first stave: B, C, C#, D | Eb, E, F, F# | G, G#, A and a rest.  The next stave includes: Bb, B, C, C# | D, Eb, E, F | F#, G, G# and A.  The final stave includes four major chords (C-maj, D-maj, E-maj and F-maj) followed by their minors (C-min, D-min, E-min and F-min).
 
@@ -74,9 +74,8 @@ At the moment, this project is simply an example of a client-side approach to di
 $ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
 $ cd vexflow-syn
 $ open index.html         // in Windows, "start index.html"
-$ open mary.html
+$ open mary.html          // See before/after version
 ```
-At the moment, the "Mary Had a Little Lamb" file has a better coding style for processing multiple note arrays.
 
 ## Notes
 It looks like vexflow at the moment is a little early in its development cycle. Although it's an awesome effort by its author, it still lacks in the ease-of-use areas, in my humble opinion.  You might also want to investigate some of the one-off projects like [vexflow-json](https://github.com/rubiety/vexflow-json) and [jquery-vexflow-json](https://github.com/rubiety/jquery-vexflow-json) which likely make things easier on importing into the note array for one or more staves.

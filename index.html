@@ -1,624 +1,259 @@
 <!DOCTYPE html>
 <html>
-  <head><title>vexflow-syn example page</title></head>
+  <head><title>vexflow-syn example page</title>
   <script src="js/vexflow-debug.js"></script>
-  <style type="text/css"> #canvasScore {} </style>
-  <body><canvas width="1260" height="350" id="canvasScore"></canvas></body>
+  <style type="text/css">
+    #canvasScoreContainer {
+      border: 1px solid #8f8f8f;
+      box-shadow: 10px 15px 25px #888888;
+      margin-top: 20px;
+      margin-left: 20px;
+      width: 1260px;
+    }
+    h1 {
+      margin-left: 20px;
+      font-family: Helvetica, Arial;
+      text-align: center;
+      margin-bottom: 0px;
+      font-style: italic;
+      font-weight: normal;
+    }
+    h2 {
+      margin-top: 50px;
+      margin-left: 40px;
+      color: #999999;
+    }
+  </style>
+  </head>
+  <body>
+  <div id="canvasScoreContainer">
+    <h1>Chromatic scale and major/minor chords in C, D, E & F</h1>
+    <canvas width="1260" height="350" id="canvasScore"></canvas>
+  </div>
+  <h2>https://github.com/OutsourcedGuru/vexflow-syn<h2>
 
   <script>
     var canvasWidth       = 1200;
-    var canvasTopMargin   = 20;
+    var canvasTopMargin   = 0;
     var canvasLeftMargin  = 20;
     var staveHeight       = 100;
     var beatsValue        = 4;
+    var numStaves         = 3;
     var canvas            = document.getElementById("canvasScore")
     var renderer          = new Vex.Flow.Renderer(canvas,
     Vex.Flow.Renderer.Backends.CANVAS);
     var ctxRenderer       = renderer.getContext();
-    var staveTreble       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveTreble.addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
-  
-    // This is for the second stave below the first
-    canvasTopMargin += staveHeight;
-    var staveSecond       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveSecond.setContext(ctxRenderer).draw();
 
-    // This is for the third stave
+    // ------------------------------------------------------------------------------------------
+    // Create three staves and draw them
+    // ------------------------------------------------------------------------------------------
+    var arrayStaves       = [numStaves];
+    arrayStaves[0]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[0].addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
     canvasTopMargin += staveHeight;
-    var staveThird       = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    staveThird.setContext(ctxRenderer).draw();
+    arrayStaves[1]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[1].addClef("treble").setContext(ctxRenderer).draw();
+    canvasTopMargin += staveHeight;
+    arrayStaves[2]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[2].addClef("treble").setContext(ctxRenderer).draw();
 
-    // Create the notes for the first stave
-    var notesFirst = [
-      new Vex.Flow.StaveNote({ keys: ["b/3"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["c/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["c#/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["d/4"], duration: "q" }),
-      new Vex.Flow.BarNote(),
-      new Vex.Flow.StaveNote({ keys: ["eb/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["e/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["f/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["f#/4"], duration: "q" }),
-      new Vex.Flow.BarNote(),
-      new Vex.Flow.StaveNote({ keys: ["g/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["g#/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["a/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "qr" })   // Rest
+    // ------------------------------------------------------------------------------------------
+    // Create three note arrays, to be used soon
+    // ------------------------------------------------------------------------------------------
+    var arrayNoteArrays   = [numStaves];
+    // Create a pointer to the Vex.Flow.StaveNote() constructor
+    var VFS               = Vex.Flow.StaveNote;
+    arrayNoteArrays[0] = [
+      new VFS({ keys: ["b/3"], duration: "q" }),
+      new VFS({ keys: ["c/4"], duration: "q" }),
+      new VFS({ keys: ["c#/4"], duration: "q" }),
+      new VFS({ keys: ["d/4"], duration: "q" }),   new Vex.Flow.BarNote(),
+      new VFS({ keys: ["eb/4"], duration: "q" }),
+      new VFS({ keys: ["e/4"], duration: "q" }),
+      new VFS({ keys: ["f/4"], duration: "q" }),
+      new VFS({ keys: ["f#/4"], duration: "q" }),  new Vex.Flow.BarNote(),
+      new VFS({ keys: ["g/4"], duration: "q" }),
+      new VFS({ keys: ["g#/4"], duration: "q" }),
+      new VFS({ keys: ["a/4"], duration: "q" }),
+      new VFS({ keys: ["b/4"], duration: "qr" })   // Rest
     ];
-    var notesSecond = [
-      new Vex.Flow.StaveNote({ keys: ["bb/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["c/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["c#/5"], duration: "q" }),
-      new Vex.Flow.BarNote(),
-      new Vex.Flow.StaveNote({ keys: ["d/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["eb/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["e/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["f/5"], duration: "q" }), 
-      new Vex.Flow.BarNote(),
-      new Vex.Flow.StaveNote({ keys: ["f#/5"], duration: "q" }), 
-      new Vex.Flow.StaveNote({ keys: ["g/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["g#/5"], duration: "q" }),
-      new Vex.Flow.StaveNote({ keys: ["a/5"], duration: "q" })
+    arrayNoteArrays[1] = [
+      new VFS({ keys: ["bb/4"], duration: "q" }),
+      new VFS({ keys: ["b/4"], duration: "q" }),
+      new VFS({ keys: ["c/5"], duration: "q" }),
+      new VFS({ keys: ["c#/5"], duration: "q" }),  new Vex.Flow.BarNote(),
+      new VFS({ keys: ["d/5"], duration: "q" }),
+      new VFS({ keys: ["eb/5"], duration: "q" }),
+      new VFS({ keys: ["e/5"], duration: "q" }),
+      new VFS({ keys: ["f/5"], duration: "q" }),   new Vex.Flow.BarNote(),
+      new VFS({ keys: ["f#/5"], duration: "q" }), 
+      new VFS({ keys: ["g/5"], duration: "q" }),
+      new VFS({ keys: ["g#/5"], duration: "q" }),
+      new VFS({ keys: ["a/5"], duration: "q" })
     ];
-    var notesThird = [
+    arrayNoteArrays[2] = [
       // A C-Major chord.
-      new Vex.Flow.StaveNote({ keys: ["c/5", "e/5", "g/5"], duration: "q" }),
+      new VFS({ keys: ["c/5", "e/5", "g/5"], duration: "q" }),
       // A D-Major chord.
-      new Vex.Flow.StaveNote({ keys: ["d/5", "f#/5", "a/5"], duration: "q" }),
+      new VFS({ keys: ["d/5", "f#/5", "a/5"], duration: "q" }),
       // An E-Major chord.
-      new Vex.Flow.StaveNote({ keys: ["e/5", "g#/5", "b/5"], duration: "q" }),
+      new VFS({ keys: ["e/5", "g#/5", "b/5"], duration: "q" }),
       // An F-Major chord.
-      new Vex.Flow.StaveNote({ keys: ["f/5", "a/5", "c/6"], duration: "q" }),
-      new Vex.Flow.BarNote(),
+      new VFS({ keys: ["f/5", "a/5", "c/6"], duration: "q" }),   new Vex.Flow.BarNote(),
       // A C-Minor chord.
-      new Vex.Flow.StaveNote({ keys: ["c/5", "eb/5", "g/5"], duration: "q" }),
+      new VFS({ keys: ["c/5", "eb/5", "g/5"], duration: "q" }),
       // A D-Minor chord.
-      new Vex.Flow.StaveNote({ keys: ["d/5", "f/5", "a/5"], duration: "q" }),
+      new VFS({ keys: ["d/5", "f/5", "a/5"], duration: "q" }),
       // An E-Minor chord.
-      new Vex.Flow.StaveNote({ keys: ["e/5", "g/5", "b/5"], duration: "q" }),
+      new VFS({ keys: ["e/5", "g/5", "b/5"], duration: "q" }),
       // An F-Minor chord.
-      new Vex.Flow.StaveNote({ keys: ["f/5", "g#/5", "c/6"], duration: "q" })
+      new VFS({ keys: ["f/5", "g#/5", "c/6"], duration: "q" }),  new Vex.Flow.BarNote(),
+      new VFS({ keys: ["b/4"], duration: "wr" })                 // Rest
     ];
 
-    // Walk the first stave's notes to adjust their color, add accidentals
-    // and to count the beats.
-    var i, j, noteCount = 0;
-    for (i=0; i < notesFirst.length; i++) {
-      if (notesFirst[i].keys) { // Returns false if this isn't a key/rest
-        noteCount++;
-        for (j=0; j < notesFirst[i].keys.length; j++) {
-          // Here's where all the colorization happens
-          switch (notesFirst[i].keys[j]) {
-            // ----------------------------------------------------------------------
-            // C = red
-            // ----------------------------------------------------------------------
-            case "c/6":
-            case "c/5":
-            case "c/4":
-            case "c/3":
-            case "c/2":
-            case "c/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#ff0000"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#ff0000"});
-              break;
-            // ----------------------------------------------------------------------
-            // C# = pastel red
-            // ----------------------------------------------------------------------
-            case "c#/6":
-            case "c#/5":
-            case "c#/4":
-            case "c#/3":
-            case "c#/2":
-            case "c#/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#cc6666"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#cc6666"});
-              notesFirst[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // D = orange
-            // ----------------------------------------------------------------------
-            case "d/6":
-            case "d/5":
-            case "d/4":
-            case "d/3":
-            case "d/2":
-            case "d/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#ff9900"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#ff9900"});
-              break;
-            // ----------------------------------------------------------------------
-            // Eb = pastel orange
-            // ----------------------------------------------------------------------
-            case "eb/6":
-            case "eb/5":
-            case "eb/4":
-            case "eb/3":
-            case "eb/2":
-            case "eb/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#f8cc99"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#f8cc99"});
-              notesFirst[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // E = yellow
-            // ----------------------------------------------------------------------
-            case "e/6":
-            case "e/5":
-            case "e/4":
-            case "e/3":
-            case "e/2":
-            case "e/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "yellow"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#ffff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F = green
-            // ----------------------------------------------------------------------
-            case "f/6":
-            case "f/5":
-            case "f/4":
-            case "f/3":
-            case "f/2":
-            case "f/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#00ff00"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#00ff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F# = pastel green
-            // ----------------------------------------------------------------------
-            case "f#/6":
-            case "f#/5":
-            case "f#/4":
-            case "f#/3":
-            case "f#/2":
-            case "f#/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#66cc66"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#66cc66"});
-              notesFirst[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // G = blue
-            // ----------------------------------------------------------------------
-            case "g/6":
-            case "g/5":
-            case "g/4":
-            case "g/3":
-            case "g/2":
-            case "g/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#0000ff"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#0000ff"});
-              break;
-            // ----------------------------------------------------------------------
-            // G# = pastel blue
-            // ----------------------------------------------------------------------
-            case "g#/6":
-            case "g#/5":
-            case "g#/4":
-            case "g#/3":
-            case "g#/2":
-            case "g#/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#6666cc"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#6666cc"});
-              notesFirst[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // A = purple
-            // ----------------------------------------------------------------------
-            case "a/6":
-            case "a/5":
-            case "a/4":
-            case "a/3":
-            case "a/2":
-            case "a/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#6633cc"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#6633cc"});
-              break;
-            // ----------------------------------------------------------------------
-            // Bv = pastel violet
-            // ----------------------------------------------------------------------
-            case "bb/6":
-            case "bb/5":
-            case "bb/4":
-            case "bb/3":
-            case "bb/2":
-            case "bb/1":
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#9955d0"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#9955d0"});
-              notesFirst[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // B = violet
-            // ----------------------------------------------------------------------
-            case "b/6":
-            case "b/5":
-            case "b/4":
-            case "b/3":
-            case "b/2":
-            case "b/1":
-              if (notesFirst[i].isRest()) break;  // Since rests sit on the B space
-              if (notesFirst[i].keys.length == 1) notesFirst[i].setStyle({strokeStyle: "#ff66ff"});
-              notesFirst[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
-              break;
+    // ------------------------------------------------------------------------------------------
+    // Finally, walk each stave's notes to adjust their color, to add accidentals and at the
+    // end of each outermost iteration, draw them onto the respective stave.
+    // ------------------------------------------------------------------------------------------
+    var i, j, staveIterator
+    // ------------------------------------------------------------------------------------------
+    // The variable staveIterator is used to walk through the outermost array of three
+    // arrays of notes.  arrayNoteArrays[staveIterator] (for staveIterator=0) then
+    // points to the notes of the first note array.
+    // ------------------------------------------------------------------------------------------
+    for (staveIterator=0; staveIterator<arrayNoteArrays.length; staveIterator++) {
+      // ----------------------------------------------------------------------------------------
+      // The variable i is used to walk through a particular notes array like
+      // arrayNoteArrays[0][], for example.  notesArray[staveIterator][i]
+      // (for staveIterator=0, i=0) then points to the initial B note of the first
+      // stave's note array.
+      // ----------------------------------------------------------------------------------------
+      for (i=0; i < arrayNoteArrays[staveIterator].length; i++) {
+        if (arrayNoteArrays[staveIterator][i].keys) { // Returns false if this isn't a key/rest
+          // ------------------------------------------------------------------------------------
+          // The variable j is used to walk through each key in a particular chord
+          // for a particular arrayNoteArrays[staveIterator][i][] array element.
+          // ------------------------------------------------------------------------------------
+          for (j=0; j < arrayNoteArrays[staveIterator][i].keys.length; j++) {
+            // Here's where all the colorization happens, to include the application
+            // of accidentals
+            switch (arrayNoteArrays[staveIterator][i].keys[j]) {
+              // --------------------------------------------------------------------------------
+              // C = red
+              // --------------------------------------------------------------------------------
+              case "c/6":   case "c/5":   case "c/4":   case "c/3":   case "c/2":   case "c/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff0000"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff0000"});
+                break;
+              // --------------------------------------------------------------------------------
+              // C# = pastel red
+              // --------------------------------------------------------------------------------
+              case "c#/6":  case "c#/5":  case "c#/4":  case "c#/3":  case "c#/2":  case "c#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#cc6666"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#cc6666"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                break;
+              // --------------------------------------------------------------------------------
+              // D = orange
+              // --------------------------------------------------------------------------------
+              case "d/6":   case "d/5":   case "d/4":   case "d/3":   case "d/2":   case "d/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff9900"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff9900"});
+                break;
+              // --------------------------------------------------------------------------------
+              // Eb = pastel orange
+              // --------------------------------------------------------------------------------
+              case "eb/6":  case "eb/5":  case "eb/4":  case "eb/3":  case "eb/2":  case "eb/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#f8cc99"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#f8cc99"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("b"));
+                break;
+              // --------------------------------------------------------------------------------
+              // E = yellow
+              // --------------------------------------------------------------------------------
+              case "e/6":   case "e/5":   case "e/4":   case "e/3":   case "e/2":   case "e/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ffff00"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ffff00"});
+                break;
+              // --------------------------------------------------------------------------------
+              // F = green
+              // --------------------------------------------------------------------------------
+              case "f/6":   case "f/5":   case "f/4":   case "f/3":   case "f/2":   case "f/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#00ff00"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#00ff00"});
+                break;
+              // --------------------------------------------------------------------------------
+              // F# = pastel green
+              // --------------------------------------------------------------------------------
+              case "f#/6":  case "f#/5":  case "f#/4":  case "f#/3":  case "f#/2":  case "f#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#66cc66"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#66cc66"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                break;
+              // --------------------------------------------------------------------------------
+              // G = blue
+              // --------------------------------------------------------------------------------
+              case "g/6":   case "g/5":   case "g/4":   case "g/3":   case "g/2":   case "g/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#0000ff"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#0000ff"});
+                break;
+              // --------------------------------------------------------------------------------
+              // G# = pastel blue
+              // --------------------------------------------------------------------------------
+              case "g#/6":  case "g#/5":  case "g#/4":  case "g#/3":  case "g#/2":  case "g#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#6666cc"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#6666cc"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                break;
+              // --------------------------------------------------------------------------------
+              // A = purple
+              // --------------------------------------------------------------------------------
+              case "a/6":   case "a/5":   case "a/4":   case "a/3":   case "a/2":   case "a/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#6633cc"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#6633cc"});
+                break;
+              // --------------------------------------------------------------------------------
+              // Bv = pastel violet
+              // --------------------------------------------------------------------------------
+              case "bb/6":  case "bb/5":  case "bb/4":  case "bb/3":  case "bb/2":  case "bb/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#9955d0"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#9955d0"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("b"));
+                break;
+              // --------------------------------------------------------------------------------
+              // B = violet
+              // --------------------------------------------------------------------------------
+              case "b/6":   case "b/5":   case "b/4":   case "b/3":   case "b/2":   case "b/1":
+                if (arrayNoteArrays[staveIterator][i].isRest())
+                  break;  // Since rests sit on the B space
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff66ff"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff66ff"});
+                break;
 
-            default:
-              break;
+              default:
+                break;
+            }
           }
         }
       }
+      // ----------------------------------------------------------------------------------------
+      // Draw each stave's notes iteratively throughout the process
+      // ----------------------------------------------------------------------------------------
+      Vex.Flow.Formatter.FormatAndDraw(ctxRenderer, arrayStaves[staveIterator], arrayNoteArrays[staveIterator]);
     }
-    // Create the first stave's voice in 4/4
-    var voiceFirst = new Vex.Flow.Voice({
-      num_beats: noteCount,
-      beat_value: beatsValue,
-      resolution: Vex.Flow.RESOLUTION
-    });
-    // Add notes to the first stave's voice
-    voiceFirst.addTickables(notesFirst);
 
-    // Walk the second stave's notes to adjust their color, add accidentals
-    // and to count the beats.
-    noteCount = 0;
-    for (i=0; i < notesSecond.length; i++) {
-      if (notesSecond[i].keys) { // Returns false if this isn't a key/rest
-        noteCount++;
-        for (j=0; j < notesSecond[i].keys.length; j++) {
-          // Here's where all the colorization happens
-          switch (notesSecond[i].keys[j]) {
-            // ----------------------------------------------------------------------
-            // C = red
-            // ----------------------------------------------------------------------
-            case "c/6":
-            case "c/5":
-            case "c/4":
-            case "c/3":
-            case "c/2":
-            case "c/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#ff0000"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#ff0000"});
-              break;
-            // ----------------------------------------------------------------------
-            // C# = pastel red
-            // ----------------------------------------------------------------------
-            case "c#/6":
-            case "c#/5":
-            case "c#/4":
-            case "c#/3":
-            case "c#/2":
-            case "c#/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#cc6666"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#cc6666"});
-              notesSecond[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // D = orange
-            // ----------------------------------------------------------------------
-            case "d/6":
-            case "d/5":
-            case "d/4":
-            case "d/3":
-            case "d/2":
-            case "d/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#ff9900"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#ff9900"});
-              break;
-            // ----------------------------------------------------------------------
-            // Eb = pastel orange
-            // ----------------------------------------------------------------------
-            case "eb/6":
-            case "eb/5":
-            case "eb/4":
-            case "eb/3":
-            case "eb/2":
-            case "eb/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#f8cc99"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#f8cc99"});
-              notesSecond[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // E = yellow
-            // ----------------------------------------------------------------------
-            case "e/6":
-            case "e/5":
-            case "e/4":
-            case "e/3":
-            case "e/2":
-            case "e/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "yellow"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#ffff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F = green
-            // ----------------------------------------------------------------------
-            case "f/6":
-            case "f/5":
-            case "f/4":
-            case "f/3":
-            case "f/2":
-            case "f/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#00ff00"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#00ff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F# = pastel green
-            // ----------------------------------------------------------------------
-            case "f#/6":
-            case "f#/5":
-            case "f#/4":
-            case "f#/3":
-            case "f#/2":
-            case "f#/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#66cc66"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#66cc66"});
-              notesSecond[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // G = blue
-            // ----------------------------------------------------------------------
-            case "g/6":
-            case "g/5":
-            case "g/4":
-            case "g/3":
-            case "g/2":
-            case "g/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#0000ff"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#0000ff"});
-              break;
-            // ----------------------------------------------------------------------
-            // G# = pastel blue
-            // ----------------------------------------------------------------------
-            case "g#/6":
-            case "g#/5":
-            case "g#/4":
-            case "g#/3":
-            case "g#/2":
-            case "g#/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#6666cc"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#6666cc"});
-              notesSecond[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // A = purple
-            // ----------------------------------------------------------------------
-            case "a/6":
-            case "a/5":
-            case "a/4":
-            case "a/3":
-            case "a/2":
-            case "a/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#6633cc"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#6633cc"});
-              break;
-            // ----------------------------------------------------------------------
-            // Bv = pastel violet
-            // ----------------------------------------------------------------------
-            case "bb/6":
-            case "bb/5":
-            case "bb/4":
-            case "bb/3":
-            case "bb/2":
-            case "bb/1":
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#9955d0"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#9955d0"});
-              notesSecond[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // B = violet
-            // ----------------------------------------------------------------------
-            case "b/6":
-            case "b/5":
-            case "b/4":
-            case "b/3":
-            case "b/2":
-            case "b/1":
-              if (notesSecond[i].isRest()) break;  // Since rests sit on the B space
-              if (notesSecond[i].keys.length == 1) notesSecond[i].setStyle({strokeStyle: "#ff66ff"});
-              notesSecond[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
-              break;
-
-            default:
-              break;
-          }
-        }
-      }
-    }
-    // Create the second stave's voice in 4/4
-    var voiceSecond = new Vex.Flow.Voice({
-      num_beats: noteCount,
-      beat_value: beatsValue,
-      resolution: Vex.Flow.RESOLUTION
-    });
-    // Add notes to the second stave's voice
-    voiceSecond.addTickables(notesSecond);
-
-    // Walk the third stave's notes to adjust their color, add accidentals
-    // and to count the beats.
-    noteCount = 0;
-    for (i=0; i < notesThird.length; i++) {
-      if (notesThird[i].keys) { // Returns false if this isn't a key/rest
-        noteCount++;
-        for (j=0; j < notesThird[i].keys.length; j++) {
-          // Here's where all the colorization happens
-          switch (notesThird[i].keys[j]) {
-            // ----------------------------------------------------------------------
-            // C = red
-            // ----------------------------------------------------------------------
-            case "c/6":
-            case "c/5":
-            case "c/4":
-            case "c/3":
-            case "c/2":
-            case "c/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#ff0000"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#ff0000"});
-              break;
-            // ----------------------------------------------------------------------
-            // C# = pastel red
-            // ----------------------------------------------------------------------
-            case "c#/6":
-            case "c#/5":
-            case "c#/4":
-            case "c#/3":
-            case "c#/2":
-            case "c#/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#cc6666"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#cc6666"});
-              notesThird[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // D = orange
-            // ----------------------------------------------------------------------
-            case "d/6":
-            case "d/5":
-            case "d/4":
-            case "d/3":
-            case "d/2":
-            case "d/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#ff9900"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#ff9900"});
-              break;
-            // ----------------------------------------------------------------------
-            // Eb = pastel orange
-            // ----------------------------------------------------------------------
-            case "eb/6":
-            case "eb/5":
-            case "eb/4":
-            case "eb/3":
-            case "eb/2":
-            case "eb/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#f8cc99"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#f8cc99"});
-              notesThird[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // E = yellow
-            // ----------------------------------------------------------------------
-            case "e/6":
-            case "e/5":
-            case "e/4":
-            case "e/3":
-            case "e/2":
-            case "e/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "yellow"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#ffff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F = green
-            // ----------------------------------------------------------------------
-            case "f/6":
-            case "f/5":
-            case "f/4":
-            case "f/3":
-            case "f/2":
-            case "f/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#00ff00"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#00ff00"});
-              break;
-            // ----------------------------------------------------------------------
-            // F# = pastel green
-            // ----------------------------------------------------------------------
-            case "f#/6":
-            case "f#/5":
-            case "f#/4":
-            case "f#/3":
-            case "f#/2":
-            case "f#/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#66cc66"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#66cc66"});
-              notesThird[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // G = blue
-            // ----------------------------------------------------------------------
-            case "g/6":
-            case "g/5":
-            case "g/4":
-            case "g/3":
-            case "g/2":
-            case "g/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#0000ff"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#0000ff"});
-              break;
-            // ----------------------------------------------------------------------
-            // G# = pastel blue
-            // ----------------------------------------------------------------------
-            case "g#/6":
-            case "g#/5":
-            case "g#/4":
-            case "g#/3":
-            case "g#/2":
-            case "g#/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#6666cc"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#6666cc"});
-              notesThird[i].addAccidental(j, new Vex.Flow.Accidental("#"));
-              break;
-            // ----------------------------------------------------------------------
-            // A = purple
-            // ----------------------------------------------------------------------
-            case "a/6":
-            case "a/5":
-            case "a/4":
-            case "a/3":
-            case "a/2":
-            case "a/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#6633cc"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#6633cc"});
-              break;
-            // ----------------------------------------------------------------------
-            // Bv = pastel violet
-            // ----------------------------------------------------------------------
-            case "bb/6":
-            case "bb/5":
-            case "bb/4":
-            case "bb/3":
-            case "bb/2":
-            case "bb/1":
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#9955d0"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#9955d0"});
-              notesThird[i].addAccidental(j, new Vex.Flow.Accidental("b"));
-              break;
-            // ----------------------------------------------------------------------
-            // B = violet
-            // ----------------------------------------------------------------------
-            case "b/6":
-            case "b/5":
-            case "b/4":
-            case "b/3":
-            case "b/2":
-            case "b/1":
-              if (notesThird[i].isRest()) break;  // Since rests sit on the B space
-              if (notesThird[i].keys.length == 1) notesThird[i].setStyle({strokeStyle: "#ff66ff"});
-              notesThird[i].setKeyStyle(j, {fillStyle: "#ff66ff"});
-              break;
-
-            default:
-              break;
-          }
-        }
-      }
-    }
-    // Create the third stave's voice in 4/4
-    var voiceThird = new Vex.Flow.Voice({
-      num_beats: noteCount,
-      beat_value: beatsValue,
-      resolution: Vex.Flow.RESOLUTION
-    });
-    // Add notes to the third stave's voice
-    voiceThird.addTickables(notesThird);
-
-
-    // Finally, format and justify the notes to canvasWidth pixels
-    // for each of the three staves.
-    var formatterFirst = new Vex.Flow.Formatter().
-      joinVoices([voiceFirst]).format([voiceFirst], canvasWidth);
-    voiceFirst.draw(ctxRenderer, staveTreble);
-
-    var formatterSecond = new Vex.Flow.Formatter().
-      joinVoices([voiceSecond]).format([voiceSecond], canvasWidth);
-    voiceSecond.draw(ctxRenderer, staveSecond);
-
-    var formatterThird = new Vex.Flow.Formatter().
-      joinVoices([voiceThird]).format([voiceThird], canvasWidth);
-    voiceThird.draw(ctxRenderer, staveThird);
   </script>
+</body>
 </html>
