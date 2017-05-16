@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head><title>vexflow-syn example page</title>
+  <script src="js/vexflow-debug.js"></script>
+  <style type="text/css">
+    #canvasScoreContainer {
+      border: 1px solid #8f8f8f;
+      box-shadow: 10px 15px 25px #888888;
+      margin-top: 20px;
+      margin-left: 20px;
+      width: 1200px;
+    }
+    h1 {
+      margin-left: 20px;
+      font-family: Helvetica, Arial;
+      text-align: center;
+      margin-bottom: 0px;
+      font-style: italic;
+      font-weight: normal;
+    }
+    h2 {
+      margin-top: 50px;
+      margin-left: 40px;
+      color: #999999;
+    }
+  </style>
+  </head>
+  <body>
+  <div id="canvasScoreContainer">
+    <h1>9 Crimes - Damien Rice</h1>
+    <canvas width="1200" height="350" id="canvasScore"></canvas>
+  </div>
+  <h2>https://github.com/OutsourcedGuru/vexflow-syn<h2>
+
+  <script>
+    var canvasWidth       = 1140;
+    var canvasTopMargin   = 0;
+    var canvasLeftMargin  = 30;
+    var staveHeight       = 120;
+    var beatsValue        = 4;
+    var numStaves         = 2;
+    var canvas            = document.getElementById("canvasScore")
+    var renderer          = new Vex.Flow.Renderer(canvas,
+    Vex.Flow.Renderer.Backends.CANVAS);
+    var ctxRenderer       = renderer.getContext();
+
+    // ------------------------------------------------------------------------------------------
+    // Create three staves and draw them
+    // ------------------------------------------------------------------------------------------
+    var arrayStaves       = [numStaves];
+    // Each of these are pairs of staves (treble/bass). Even-numbered stave lookups then will be
+    // treble; odd are bass clef staves.
+    arrayStaves[0]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[0].addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
+    arrayStaves[1]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin + staveHeight, canvasWidth);
+    arrayStaves[1].addClef("bass").addTimeSignature("4/4").setContext(ctxRenderer).draw();
+    // Each new pair gets a bump down the page
+    canvasTopMargin += staveHeight;
+    //arrayStaves[2]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    //arrayStaves[2].addClef("treble").setContext(ctxRenderer).draw();
+
+
+    var brace = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(3);
+    var lineLeft = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(1);
+    var lineRight = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(6);
+    brace.setContext(ctxRenderer).draw();
+    lineLeft.setContext(ctxRenderer).draw();    lineRight.setContext(ctxRenderer).draw();
+
+    // ------------------------------------------------------------------------------------------
+    // Create three note arrays, to be used soon
+    // ------------------------------------------------------------------------------------------
+    var arrayNoteArrays   = [numStaves];
+    var arrayBeats        = [numStaves];
+    for (var z=0; z<numStaves; z++) arrayBeats[z] = 0;
+    // Create a pointer to the Vex.Flow.StaveNote() constructor
+    var VFS               = Vex.Flow.StaveNote;
+    arrayNoteArrays[0] = [
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["c/4"], duration: "q" }),
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),
+      new VFS({ keys: ["b/3"], duration: "q" }),
+      new VFS({ keys: ["f/3"], duration: "8" }),
+      new VFS({ keys: ["a/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["a/3"], duration: "hd" }),
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["b/3"], duration: "q" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "q" }),
+      new VFS({ keys: ["f/3"], duration: "8" }),
+      new VFS({ keys: ["a/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["a/3"], duration: "hd" }),
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["b/3"], duration: "8" })
+    ];
+    arrayNoteArrays[1] = [
+      new VFS({ keys: ["b/4"], duration: "qr" }),  new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["f/4"], duration: "8" }),
+      new VFS({ keys: ["c/5"], duration: "qd" }),
+      new VFS({ keys: ["d/4"], duration: "8" }),
+      new VFS({ keys: ["a/4"], duration: "qd" }),  new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["e/4"], duration: "8" }),
+      new VFS({ keys: ["a/4"], duration: "8" }),
+      new VFS({ keys: ["c/5"], duration: "8" }), 
+      new VFS({ keys: ["e/4"], duration: "8" }),
+      new VFS({ keys: ["b/4"], duration: "qd" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["f/4"], duration: "8" }),
+      new VFS({ keys: ["c/5"], duration: "qd" }),
+      new VFS({ keys: ["d/4"], duration: "8" }),
+      new VFS({ keys: ["a/4"], duration: "qd" }),  new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["a/3"], duration: "8" }),
+      new VFS({ keys: ["e/4"], duration: "8" }),
+      new VFS({ keys: ["a/4"], duration: "8" }),
+      new VFS({ keys: ["c/5"], duration: "8" }), 
+      new VFS({ keys: ["e/4"], duration: "8" }),
+      new VFS({ keys: ["b/4"], duration: "qd" })
+    ];
+    // Setup an array of beams for the staves. They'll be drawn at the last moment after the
+    // colorization step.
+    var arrayBeams = [numStaves];
+    for (var z=0; z<numStaves; z++) arrayBeams[z] = Vex.Flow.Beam.generateBeams(arrayNoteArrays[z]);
+
+    // Setup the ties
+    var arrayTies = [
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][5],
+        last_note: arrayNoteArrays[0][6]
+      })
+    ];
+
+    // ------------------------------------------------------------------------------------------
+    // Finally, walk each stave's notes to adjust their color, to add accidentals and at the
+    // end of each outermost iteration, draw them onto the respective stave.
+    // ------------------------------------------------------------------------------------------
+    var i, j, staveIterator
+    // ------------------------------------------------------------------------------------------
+    // The variable staveIterator is used to walk through the outermost array of three
+    // arrays of notes.  arrayNoteArrays[staveIterator] (for staveIterator=0) then
+    // points to the notes of the first note array.
+    // ------------------------------------------------------------------------------------------
+    for (staveIterator=0; staveIterator<arrayNoteArrays.length; staveIterator++) {
+      // ----------------------------------------------------------------------------------------
+      // The variable i is used to walk through a particular notes array like
+      // arrayNoteArrays[0][], for example.  notesArray[staveIterator][i]
+      // (for staveIterator=0, i=0) then points to the initial B note of the first
+      // stave's note array.
+      // ----------------------------------------------------------------------------------------
+      for (i=0; i < arrayNoteArrays[staveIterator].length; i++) {
+        if (arrayNoteArrays[staveIterator][i].keys) { // Returns false if this isn't a key/rest
+          switch (arrayNoteArrays[staveIterator][i].duration) {
+            case 'w':
+              arrayBeats[staveIterator] += arrayNoteArrays[staveIterator][i].isDotted() ? 24 : 16;
+              break;
+            case 'h':
+              arrayBeats[staveIterator] += arrayNoteArrays[staveIterator][i].isDotted() ? 12 : 8;
+              break;
+            case 'q':
+              arrayBeats[staveIterator] += arrayNoteArrays[staveIterator][i].isDotted() ? 6 : 4;
+              break;
+            case '8':
+              arrayBeats[staveIterator] += arrayNoteArrays[staveIterator][i].isDotted() ? 3 : 2;
+              break;
+          }
+          // ------------------------------------------------------------------------------------
+          // The variable j is used to walk through each key in a particular chord
+          // for a particular arrayNoteArrays[staveIterator][i][] array element.
+          // ------------------------------------------------------------------------------------
+          for (j=0; j < arrayNoteArrays[staveIterator][i].keys.length; j++) {
+            // Here's where all the colorization happens, to include the application
+            // of accidentals
+            switch (arrayNoteArrays[staveIterator][i].keys[j]) {
+              // --------------------------------------------------------------------------------
+              // C = red
+              // --------------------------------------------------------------------------------
+              case "c/6":   case "c/5":   case "c/4":   case "c/3":   case "c/2":   case "c/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff0000"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff0000"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // C# = pastel red
+              // --------------------------------------------------------------------------------
+              case "c#/6":  case "c#/5":  case "c#/4":  case "c#/3":  case "c#/2":  case "c#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#cc6666"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#cc6666"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // D = orange
+              // --------------------------------------------------------------------------------
+              case "d/6":   case "d/5":   case "d/4":   case "d/3":   case "d/2":   case "d/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff9900"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff9900"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // Eb = pastel orange
+              // --------------------------------------------------------------------------------
+              case "eb/6":  case "eb/5":  case "eb/4":  case "eb/3":  case "eb/2":  case "eb/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#f8cc99"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#f8cc99"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("b"));
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // E = yellow
+              // --------------------------------------------------------------------------------
+              case "e/6":   case "e/5":   case "e/4":   case "e/3":   case "e/2":   case "e/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ffff00"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ffff00"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // F = green
+              // --------------------------------------------------------------------------------
+              case "f/6":   case "f/5":   case "f/4":   case "f/3":   case "f/2":   case "f/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#00ff00"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#00ff00"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // F# = pastel green
+              // --------------------------------------------------------------------------------
+              case "f#/6":  case "f#/5":  case "f#/4":  case "f#/3":  case "f#/2":  case "f#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#66cc66"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#66cc66"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // G = blue
+              // --------------------------------------------------------------------------------
+              case "g/6":   case "g/5":   case "g/4":   case "g/3":   case "g/2":   case "g/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#0000ff"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#0000ff"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // G# = pastel blue
+              // --------------------------------------------------------------------------------
+              case "g#/6":  case "g#/5":  case "g#/4":  case "g#/3":  case "g#/2":  case "g#/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#6666cc"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#6666cc"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("#"));
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // A = purple
+              // --------------------------------------------------------------------------------
+              case "a/6":   case "a/5":   case "a/4":   case "a/3":   case "a/2":   case "a/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#6633cc"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#6633cc"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // Bv = pastel violet
+              // --------------------------------------------------------------------------------
+              case "bb/6":  case "bb/5":  case "bb/4":  case "bb/3":  case "bb/2":  case "bb/1":
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#9955d0"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#9955d0"});
+                arrayNoteArrays[staveIterator][i].addAccidental(j, new Vex.Flow.Accidental("b"));
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+              // --------------------------------------------------------------------------------
+              // B = violet
+              // --------------------------------------------------------------------------------
+              case "b/6":   case "b/5":   case "b/4":   case "b/3":   case "b/2":   case "b/1":
+                if (arrayNoteArrays[staveIterator][i].isRest())
+                  break;  // Since rests sit on the B space
+                if (arrayNoteArrays[staveIterator][i].keys.length == 1)
+                  arrayNoteArrays[staveIterator][i].setStyle({strokeStyle: "#ff66ff"});
+                arrayNoteArrays[staveIterator][i].setKeyStyle(j, {fillStyle: "#ff66ff"});
+                if (arrayNoteArrays[staveIterator][i].isDotted())
+                  arrayNoteArrays[staveIterator][i].addDotToAll();
+                break;
+
+              default:
+                break;
+            }
+          }
+        }
+      }
+      // ----------------------------------------------------------------------------------------
+      // Draw each stave's notes iteratively throughout the process
+      // ----------------------------------------------------------------------------------------
+      //Vex.Flow.Formatter.FormatAndDraw(ctxRenderer, arrayStaves[staveIterator], arrayNoteArrays[staveIterator]);
+    }
+
+  var voices = [
+    new Vex.Flow.Voice({num_beats: arrayBeats[0], beat_value: 16}).addTickables(arrayNoteArrays[0]),
+    new Vex.Flow.Voice({num_beats: arrayBeats[1], beat_value: 16}).addTickables(arrayNoteArrays[1])
+  ];
+  // The formatter does not appear to compensate for the width of the key signature, so we fudge this
+  // below with the number 80.
+  var formatter = new Vex.Flow.Formatter().joinVoices(voices).format(voices, canvasWidth - 80);
+  voices[0].draw(ctxRenderer, arrayStaves[0]);
+  voices[1].draw(ctxRenderer, arrayStaves[1]);
+  // Now display the beams that were generated for each stave
+  for (var z=0; z<numStaves; z++) arrayBeams[z].forEach(function(b) {b.setContext(ctxRenderer).draw()});
+  // ...and display the ties
+  arrayTies.forEach(function(t) { t.setContext(ctxRenderer).draw(); });
+
+  </script>
+</body>
+</html>
