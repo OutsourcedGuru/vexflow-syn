@@ -2,44 +2,13 @@
 <html>
   <head><title>vexflow-syn example page</title>
   <script src="js/vexflow-debug.js"></script>
-  <style type="text/css">
-    #canvasScoreContainer {
-      border: 1px solid #8f8f8f;
-      box-shadow: 10px 15px 25px #888888;
-      margin-top: 20px;
-      margin-left: 20px;
-      width: 1200px;
-    }
-    h1 {
-      margin-left: 20px;
-      font-family: Helvetica, Arial;
-      text-align: center;
-      margin-bottom: 0px;
-      font-style: italic;
-      font-weight: normal;
-    }
-    #tempo {
-      font-size: 16pt;
-      float: left;
-      margin-left: 30px;
-    }
-    #attribution {
-      font-size: 16pt;
-      float: right;
-      margin-right: 35px;
-    }
-    h2 {
-      margin-top: 50px;
-      margin-left: 40px;
-      color: #999999;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="9crimes.css" >
   </head>
   <body>
   <div id="canvasScoreContainer">
     <h1>9 Crimes</h1>
     <span id="tempo">q = 70</span><span id="attribution">Words and music by Damien Rice</span>
-    <canvas width="1200" height="350" id="canvasScore"></canvas>
+    <canvas width="1200" height="500" id="canvasScore"></canvas>
   </div>
   <h2>https://github.com/OutsourcedGuru/vexflow-syn<h2>
 
@@ -49,7 +18,7 @@
     var canvasLeftMargin  = 30;
     var staveHeight       = 120;
     var beatsValue        = 4;
-    var numStaves         = 2;
+    var numStaves         = 4;
     var canvas            = document.getElementById("canvasScore")
     var renderer          = new Vex.Flow.Renderer(canvas,
     Vex.Flow.Renderer.Backends.CANVAS);
@@ -66,16 +35,23 @@
     arrayStaves[1]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin + staveHeight, canvasWidth);
     arrayStaves[1].addClef("bass").addTimeSignature("4/4").setContext(ctxRenderer).draw();
     // Each new pair gets a bump down the page
-    canvasTopMargin += staveHeight;
-    //arrayStaves[2]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
-    //arrayStaves[2].addClef("treble").setContext(ctxRenderer).draw();
+    canvasTopMargin += staveHeight * 2;
+    arrayStaves[2]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin, canvasWidth);
+    arrayStaves[2].addClef("treble").addTimeSignature("4/4").setContext(ctxRenderer).draw();
+    arrayStaves[3]        = new Vex.Flow.Stave(canvasLeftMargin, canvasTopMargin + staveHeight, canvasWidth);
+    arrayStaves[3].addClef("bass").addTimeSignature("4/4").setContext(ctxRenderer).draw();
 
-
-    var brace = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(3);
-    var lineLeft = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(1);
-    var lineRight = new Vex.Flow.StaveConnector(arrayStaves[0], arrayStaves[1]).setType(6);
-    brace.setContext(ctxRenderer).draw();
-    lineLeft.setContext(ctxRenderer).draw();    lineRight.setContext(ctxRenderer).draw();
+    var arrayBraces       = [numStaves / 2];
+    var leftDecoration    = [numStaves / 2];
+    var rightDecoration   = [numStaves / 2];
+    for (var z=0; z<numStaves; z+=2) {
+      arrayBraces[z]        = new Vex.Flow.StaveConnector(arrayStaves[z], arrayStaves[z+1]).setType(3);
+      leftDecoration[z]     = new Vex.Flow.StaveConnector(arrayStaves[z], arrayStaves[z+1]).setType(1);
+      rightDecoration[z]    = new Vex.Flow.StaveConnector(arrayStaves[z], arrayStaves[z+1]).setType(6);
+      arrayBraces[z].setContext(ctxRenderer).draw();
+      leftDecoration[z].setContext(ctxRenderer).draw();
+      rightDecoration[z].setContext(ctxRenderer).draw();
+    };
 
     // ------------------------------------------------------------------------------------------
     // Create three note arrays, to be used soon
@@ -94,22 +70,22 @@
       new VFS({ keys: ["b/3"], duration: "8" }),
       new VFS({ keys: ["b/3"], duration: "q" }),
       new VFS({ keys: ["f/3"], duration: "8" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["g/3"], duration: "hd" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),
       new VFS({ keys: ["a/3"], duration: "8" }),   new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["a/3"], duration: "hd" }),
-      new VFS({ keys: ["a/3"], duration: "8" }),
-      new VFS({ keys: ["b/3"], duration: "8" }),   new Vex.Flow.BarNote(),
-
-      new VFS({ keys: ["b/3"], duration: "q" }),
+      new VFS({ keys: ["a/3"], duration: "q" }),
       new VFS({ keys: ["b/3"], duration: "8" }),
       new VFS({ keys: ["c/4"], duration: "8" }),
       new VFS({ keys: ["c/4"], duration: "q" }),
       new VFS({ keys: ["f/3"], duration: "8" }),
-      new VFS({ keys: ["a/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+      new VFS({ keys: ["g/3"], duration: "8" }),   new Vex.Flow.BarNote(),
 
-      new VFS({ keys: ["a/3"], duration: "hd" }),
-      new VFS({ keys: ["a/3"], duration: "8" }),
-      new VFS({ keys: ["b/3"], duration: "8" })
+      new VFS({ keys: ["g/3"], duration: "hd" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),
+      new VFS({ keys: ["a/3"], duration: "8" })
     ];
     arrayNoteArrays[1] = [
       new VFS({ clef: "bass", keys: ["f/3"], duration: "qr" }),  new Vex.Flow.BarNote(),
@@ -124,7 +100,7 @@
       new VFS({ clef: "bass", keys: ["c/3"], duration: "8" }),
       new VFS({ clef: "bass", keys: ["e/3"], duration: "8" }), 
       new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
-      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),   new Vex.Flow.BarNote(),
+      new VFS({ clef: "bass", keys: ["d/3"], duration: "qd" }),  new Vex.Flow.BarNote(),
 
       new VFS({ clef: "bass", keys: ["a/2"], duration: "8" }),
       new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),
@@ -136,35 +112,123 @@
       new VFS({ clef: "bass", keys: ["c/3"], duration: "8" }),
       new VFS({ clef: "bass", keys: ["e/3"], duration: "8" }), 
       new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
-      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" })
+      new VFS({ clef: "bass", keys: ["d/3"], duration: "qd" })
+    ];
+    arrayNoteArrays[2] = [
+      new VFS({ keys: ["a/3"], duration: "q" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "q" }),
+      new VFS({ keys: ["f/3"], duration: "8" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["g/3"], duration: "w" }),  new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["a/3"], duration: "q" }),
+      new VFS({ keys: ["b/3"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "8" }),
+      new VFS({ keys: ["c/4"], duration: "q" }),
+      new VFS({ keys: ["f/3"], duration: "8" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ keys: ["g/3"], duration: "qd" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),
+      new VFS({ keys: ["g/3"], duration: "q" }),
+      new VFS({ keys: ["g/3"], duration: "8" }),
+      new VFS({ keys: ["a/3"], duration: "8" })
+    ];
+    arrayNoteArrays[3] = [
+      new VFS({ clef: "bass", keys: ["a/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),
+      new VFS({ clef: "bass", keys: ["f/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "qd" }),  new Vex.Flow.BarNote(),
+      
+      new VFS({ clef: "bass", keys: ["c/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "8" }), 
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "h" }),   new Vex.Flow.BarNote(),
+
+      new VFS({ clef: "bass", keys: ["a/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["e/3"], duration: "qd" }),
+      new VFS({ clef: "bass", keys: ["f/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "qd" }),  new Vex.Flow.BarNote(),
+      
+      new VFS({ clef: "bass", keys: ["c/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["c/3"], duration: "q" }),
+      new VFS({ clef: "bass", keys: ["g/2"], duration: "8" }),
+      new VFS({ clef: "bass", keys: ["d/3"], duration: "qd" })
     ];
     // Setup an array of beams for the staves. They'll be drawn at the last moment after the
     // colorization step.
     var arrayBeams = [numStaves];
-    for (var z=0; z<numStaves; z++) arrayBeams[z] = Vex.Flow.Beam.generateBeams(arrayNoteArrays[z]);
+    for (var z=0; z<numStaves; z++)
+      arrayBeams[z] = Vex.Flow.Beam.generateBeams(arrayNoteArrays[z]);
 
     // Setup the ties, noting that some of these must "step across" the barline, hence the iteration
     // distance of two in these cases.
     var arrayTies = [
+      // First stave, treble clef, 2nd bar, B
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][5],
         last_note: arrayNoteArrays[0][6]
       }),
+      // First stave, treble clef, 2nd bar, G
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][8],
         last_note: arrayNoteArrays[0][10]
       }),
+      // First stave, treble clef, 3rd bar, A
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][12],
         last_note: arrayNoteArrays[0][14]
       }),
+      // First stave, treble clef, 4th bar, C
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][16],
         last_note: arrayNoteArrays[0][17]
       }),
+      // First stave, treble clef, 4th bar, G
       new Vex.Flow.StaveTie({
         first_note: arrayNoteArrays[0][19],
         last_note: arrayNoteArrays[0][21]
+      }),
+      // First stave, treble clef, 5th bar, A
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[0][23],
+        last_note: arrayNoteArrays[0][24]
+      }),
+      // ------------------------------------------
+      // Third stave, treble clef, 1st bar, C
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][2],
+        last_note: arrayNoteArrays[2][3]
+      }),
+      // Third stave, treble clef, 1st bar, G
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][5],
+        last_note: arrayNoteArrays[2][7]
+      }),
+      // Third stave, treble clef, 3rd bar, C
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][11],
+        last_note: arrayNoteArrays[2][12]
+      }),
+      // Third stave, treble clef, 3rd bar, G
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][14],
+        last_note: arrayNoteArrays[2][16]
+      }),
+      // Third stave, treble clef, 4th bar, G
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][17],
+        last_note: arrayNoteArrays[2][18]
+      }),
+      // Third stave, treble clef, 4th bar, A
+      new Vex.Flow.StaveTie({
+        first_note: arrayNoteArrays[2][20],
+        last_note: arrayNoteArrays[2][21]
       })
     ];
 
@@ -351,17 +415,29 @@
       //Vex.Flow.Formatter.FormatAndDraw(ctxRenderer, arrayStaves[staveIterator], arrayNoteArrays[staveIterator]);
     }
 
-  var voices = [
+  var arrayVoices = [numStaves / 2];
+  arrayVoices[0] = [
     new Vex.Flow.Voice({num_beats: arrayBeats[0], beat_value: 16}).addTickables(arrayNoteArrays[0]),
     new Vex.Flow.Voice({num_beats: arrayBeats[1], beat_value: 16}).addTickables(arrayNoteArrays[1])
   ];
+  arrayVoices[1] = [
+    new Vex.Flow.Voice({num_beats: arrayBeats[2], beat_value: 16}).addTickables(arrayNoteArrays[2]),
+    new Vex.Flow.Voice({num_beats: arrayBeats[3], beat_value: 16}).addTickables(arrayNoteArrays[3])
+  ];
   // The formatter does not appear to compensate for the width of the key signature, so we fudge this
   // below with the number 80.
-  var formatter = new Vex.Flow.Formatter().joinVoices(voices).format(voices, canvasWidth - 80);
-  voices[0].draw(ctxRenderer, arrayStaves[0]);
-  voices[1].draw(ctxRenderer, arrayStaves[1]);
+  var arrayFormatters = [numStaves / 2];
+  arrayFormatters[0] = new Vex.Flow.Formatter().joinVoices(arrayVoices[0]).format(arrayVoices[0], canvasWidth - 80);
+  arrayFormatters[1] = new Vex.Flow.Formatter().joinVoices(arrayVoices[1]).format(arrayVoices[1], canvasWidth - 80);
+  // Draw the first two voices on the first set of staves
+  arrayVoices[0][0].draw(ctxRenderer, arrayStaves[0]);
+  arrayVoices[0][1].draw(ctxRenderer, arrayStaves[1]);
+  // Draw the next two voices on the second set of staves
+  arrayVoices[1][0].draw(ctxRenderer, arrayStaves[2]);
+  arrayVoices[1][1].draw(ctxRenderer, arrayStaves[3]);
   // Now display the beams that were generated for each stave
-  for (var z=0; z<numStaves; z++) arrayBeams[z].forEach(function(b) {b.setContext(ctxRenderer).draw()});
+  for (var z=0; z<numStaves; z++)
+    arrayBeams[z].forEach(function(b) {b.setContext(ctxRenderer).draw()});
   // ...and display the ties
   arrayTies.forEach(function(t) { t.setContext(ctxRenderer).draw(); });
 
