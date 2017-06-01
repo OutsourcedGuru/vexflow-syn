@@ -75,6 +75,7 @@ $ git clone https://github.com/OutsourcedGuru/vexflow-syn.git
 $ cd vexflow-syn
 $ open index.html         // in Windows, "start index.html"
 $ open mary.html          // See before/after version
+$ open 9crimes.html       // Great example
 ```
 
 ## Notes
@@ -86,5 +87,7 @@ I'm also in the learning stage for vexflow since this project is less than a wee
 
 ## Complexity
 Having now learned a bit about the vexflow styling tutorial, I've added a pair of staves from the "9 Crimes" song by Damien Rice to demonstrate bracing a treble/bass clef, properly marking notes when they're in a different clef, adding ties and note bars, etc. This file also adds to the collection of accidentals and exceptions for the simpler cases so it's probably the best file to use as a base point for your own work.
+
+I've done a better job of using arrays in this pair of files (9crimes.html & css) so you should clone from here if you're trying to create a song.
 
 ![9crimes](https://cloud.githubusercontent.com/assets/15971213/26123137/aeb46f86-3a2e-11e7-943f-212bd36f2ac1.png)
