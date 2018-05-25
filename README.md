@@ -91,3 +91,8 @@ Having now learned a bit about the vexflow styling tutorial, I've added a pair o
 I've done a better job of using arrays in this pair of files (9crimes.html & css) so you should clone from here if you're trying to create a song.
 
 ![9crimes](https://cloud.githubusercontent.com/assets/15971213/26123137/aeb46f86-3a2e-11e7-943f-212bd36f2ac1.png)
+
+|Donate||Cryptocurrency|
+|:-----:|---|:--------:|
+| ![eth-receive](https://user-images.githubusercontent.com/15971213/40564950-932d4d10-601f-11e8-90f0-459f8b32f01c.png) || ![btc-receive](https://user-images.githubusercontent.com/15971213/40564971-a2826002-601f-11e8-8d5e-eeb35ab53300.png) |
+|Ethereum||Bitcoin|
